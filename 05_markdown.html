@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog con Markdown y Showdown.js</title>
+</head>
+
+<body>
+  <h1>Blog con Markdown y Showdown.js</h1>
+  <main></main>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js" integrity="sha512-LhccdVNGe2QMEfI3x4DVV3ckMRe36TfydKss6mJpdHjNFiV07dFpS2xzeZedptKZrwxfICJpez09iNioiSZ3hA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+    const $main = document.querySelector("main");
+    
+    const extraerMarkDown = async () => {
+        try{
+            let response = await fetch("./assets/portafolio.md")
+
+            if(!response.ok) throw new Error(`Ocurrio un error (${response.status}): ${response.statusText}`)
+
+            let txt = await response.text();
+
+            return txt;
+
+        }catch(error){
+            console.log(error);
+            $main.innerHTML = `Error ${error.status}: ${error.message}`;
+        }
+    }    
+
+    const pintarHtml = async () => {
+        let contenido = await extraerMarkDown();
+
+        const converter = new showdown.Converter();        
+
+        const html = converter.makeHtml(contenido);
+
+        $main.innerHTML = html;
+    };    
+
+    pintarHtml();
+</script>
+</body>
+
+</html>

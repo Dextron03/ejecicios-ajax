@@ -8,6 +8,7 @@ const $template = document.getElementById("taco-template").content,
             Authorization: `Bearer ${STRIPE_KEYS.secret}`
         }
     };
+
 const fetchData = async () => {
     try {
         let [responseProducts, responsePrices] = await Promise.all([
@@ -18,6 +19,7 @@ const fetchData = async () => {
         let products = await responseProducts.json();
         let prices = await responsePrices.json();
 
+        console.log(products)
         console.log(prices)
 
         return { products: products.data || [], prices: prices.data || [] };
@@ -39,15 +41,7 @@ const renderProductos = (productos) => {
     $tacos.appendChild($fragment);
 };
 
-const formatearPrecio = (precio) => {
-    let stringPrecio = ""
-    precio = precio.split("")
-    precio[precio.length - 2] = "."
-    precio[precio.length ] = "0"
-    precio.forEach(item=>stringPrecio+=item)
-    
-    return stringPrecio;
-}
+const formatearPrecio = (amountInCents) => (amountInCents / 100).toFixed(2);
 
 const init = async () => {
     let { products, prices } = await fetchData();
@@ -108,6 +102,5 @@ const pagarConSubscripcion = (id) => {
         console.error("Error inesperado en suscripción:", error);
     });
 };
-
 
 init();

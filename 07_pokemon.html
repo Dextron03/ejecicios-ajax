@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <title>Pokémons</title>
+  <style>
+    html {
+      text-align: center;
+    }
+
+    .grid-fluid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      text-align: center;
+    }
+
+    .loader {
+      display: block;
+      margin: auto;
+    }
+
+    .none {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Pokémons</h1>
+  <nav class="links">
+
+  </nav>
+  <main class="grid-fluid">
+    
+    <div class="loader">
+      <img src="../assets/loader.svg" alt="Cargando">
+    </div>
+  </main>
+  <template>
+    <figure>
+      <img>
+      <figcaption></figcaption>
+    </figure>
+  </template>
+  <script src="./assets/js/07_api_pokemon.js"></script>
+  
+</body>
+</html>
