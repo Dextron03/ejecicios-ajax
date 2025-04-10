@@ -13,8 +13,13 @@ const pedirPokemons = async (url) => {
 
         if (!response.ok) throw new Error(`Ocurrio un error (${response.status}): ${response.statusText}`);
 
-        $prevLink = json.previous ? `<a href="${json.previous}"><i class="bi bi-arrow-left-square-fill"></i></a>` : ""; 
-        $nextLink = json.next ? `<a href="${json.next}"><i class="bi bi-arrow-right-square-fill"></i></a>` : ""; 
+        $prevLink = json.previous 
+        ? `<a id="prev-link" class="btn-nav" href="${json.previous}"><i class="bi bi-arrow-left-square-fill"></i></a>` 
+        : "";
+
+        $nextLink = json.next 
+        ? `<a id="next-link" class="btn-nav" href="${json.next}"><i class="bi bi-arrow-right-square-fill"></i></a>` 
+        : "";
 
         $links.innerHTML = $prevLink +" "+ $nextLink;
 
@@ -27,8 +32,8 @@ const pedirPokemons = async (url) => {
     }
 }
 
-const formatearPokemon = async () => {
-    const pokemons = await pedirPokemons("https://pokeapi.co/api/v2/pokemon/?offset=0&limit=20");
+const formatearPokemon = async (url) => {
+    const pokemons = await pedirPokemons(url);
     if (!pokemons || pokemons.length === 0) {
         console.error("No se obtuvieron los pokemons.");
         return;
@@ -52,9 +57,9 @@ const extraerDatosImportante = (obj) => {
     return objPokemonFormateado;
 }
 
-const mostrarPokemons = async () => {
-    const pokemons = extraerDatosImportante(await formatearPokemon());
-    
+const mostrarPokemons = async (url) => {
+    const pokemons = extraerDatosImportante(await formatearPokemon(url));
+
     if (pokemons.length === 0) {
         console.log("No se encontraron Pokemons para mostrar.");
         return;
@@ -71,4 +76,23 @@ const mostrarPokemons = async () => {
     $main.appendChild($fragmento);
 }
 
-mostrarPokemons();
+const pasarDeSeccion = () => {
+    document.addEventListener("click", e=>{
+        const $link = e.target.closest("a"); // esto detecta el <a> aunque hayas hecho clic en el <i>
+
+        if ($link && $link.matches("#next-link")) {
+            e.preventDefault();
+            $main.innerHTML="";
+            mostrarPokemons($link.href);
+        }
+        if ($link && $link.matches("#prev-link")) {
+            e.preventDefault();
+            $main.innerHTML="";
+            mostrarPokemons($link.href);
+        }
+    })
+}
+document.addEventListener("DOMContentLoaded", ()=>{
+    pasarDeSeccion();
+    mostrarPokemons("https://pokeapi.co/api/v2/pokemon/?offset=0&limit=20");
+})

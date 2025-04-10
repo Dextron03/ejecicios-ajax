@@ -25,6 +25,30 @@
     .none {
       display: none;
     }
+
+    .links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+    
+    .btn-nav {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 2rem;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      transition: background-color 0.3s;
+      color: #333;
+      background-color: #e2e2e2;
+    }
+    
+    .btn-nav:hover {
+      background-color: #ccc;
+    }
   </style>
 </head>
 
@@ -39,6 +63,7 @@
       <img src="../assets/loader.svg" alt="Cargando">
     </div>
   </main>
+  
   <template>
     <figure>
       <img>
